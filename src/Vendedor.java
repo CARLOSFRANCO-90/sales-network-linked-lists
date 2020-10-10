@@ -1,8 +1,9 @@
 
 public class Vendedor {
 	
+	String nombre;
 	float porjentajeDescuento;
-	float comisionXMiembro;
-	float cuotaTotalXMiembro;
+	float comisionInicialXMiembro;
+	float valorXMiembro;
 
 }

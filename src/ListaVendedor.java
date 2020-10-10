@@ -1,57 +1,97 @@
 
+
 public class ListaVendedor {
+	
 	NodoVendedor head;
-	void adicionar( Vendedor v) {
-		NodoVendedor nuevoNodo = new NodoVendedor();
-		nuevoNodo.vendedor = v;
+	
+	float porjentajeDescuento = 10;
+	float comisionInicialXMiembro = 25;
+	int valorXMiembro = 1000;
+	
+	public void anidir(Vendedor vendedor) {
+		NodoVendedor nuevoVendedor = new NodoVendedor();
+		nuevoVendedor.vendedor = vendedor;
 		
-		// la lista esta vacia 
-		if(head == nuevoNodo) {
-			head = nuevoNodo;
+		if(head == null) {
+			head = nuevoVendedor;
 		}
-		else { //La lista ya no esta vacia
-			NodoVendedor ultimo = head;
-			while(ultimo.next !=null) {
-				ultimo = ultimo.next;
+		else {
+			NodoVendedor tmp = head;
+			while(tmp.next!=null) {
+				tmp=tmp.next;
 			}
 			
-			ultimo.next = nuevoNodo;
+			tmp.next = nuevoVendedor;
 		}
-	}	
-		
-		float calcularPorjentajeDescuento() {
-			float porcentaje =0;
-			int contadorVendedor =0;
-			
-			NodoVendedor tmp = head;
-			
-			while(tmp !=null) {
-				porcentaje = porcentaje + tmp.vendedor.porjentajeDescuento;
-				contadorVendedor++;
-				tmp=tmp.next;
-				
-			}
-			
-			porcentaje = porcentaje * contadorVendedor /100;
-			
-			return porcentaje;
-		}
-		
-		float calculaComisionXMiembro() {
-			float comision =0;
-			int contadorVendedor =0;
-			
-			NodoVendedor tmp = head;
-			
-			while(tmp !=null) {
-				comision = comision + tmp.vendedor.comisionXMiembro;
-				contadorVendedor++;
-				tmp=tmp.next;
-		    }
-			
-			comision = comision * contadorVendedor /100;
-			return comision;
-				
 	}
 
+	
+	public void impresionLista(NodoVendedor nodo) {
+		if(nodo == null) {
+			return;
+		}
+		
+		System.out.println("nombre: " + nodo.vendedor.nombre + " " + "cotaInicial: " 
+				+ nodo.vendedor.comisionInicialXMiembro);
+	}
+	
+	public float obtenerSaldoInicial(NodoVendedor nodo) {
+		if(nodo == null) {
+			return 0;
+		}
+		
+		float valor =0;
+		
+		NodoVendedor tmp = this.head;
+		while(tmp == null) {
+			
+			valor = tmp.vendedor.valorXMiembro -(tmp.vendedor.valorXMiembro * porjentajeDescuento/100);
+					
+			System.out.println(" Costo actual " + tmp.vendedor.nombre + " " + valor);
+			tmp = tmp.next;
+		}
+		return valor ;
+	}
+	
+	public int conocerGanancias(NodoVendedor nodo) {
+		if(nodo==null) {
+			return 0;
+		}
+		int valor =0;
+		int anidir=0;
+		NodoVendedor tmp = this.head;
+		while (tmp!=null) {
+			
+			anidir+=(conocerGanancias(nodo.next)*comisionInicialXMiembro/100);
+			valor = conocerGanancias(nodo) + anidir;
+			
+			System.out.println(" Actual saldo " + tmp.vendedor.nombre + " " + valor);
+			tmp = tmp.next;
+		}
+		return valor;
+		
+	}
+	
+	public int balanceDeLaRed(NodoVendedor nodo) {
+		if(nodo== null) {
+			return 0;
+		}
+		NodoVendedor tmp = this.head;
+		int nV =0;
+		while(tmp!= null) {
+			nV += conocerGanancias(nodo);
+			tmp=tmp.next;
+		}
+		System.out.println(" Saber ganancia: "+ nV);
+		return nV;
+	}
+	
+	/*public int mayorSaldo(NodoVendedor nodo) {
+		if(nodo==null) {
+			return 0;
+		}
+		NodoVendedor tmp = this.head;
+	}
+	*/
+	
 }
